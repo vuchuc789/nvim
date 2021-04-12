@@ -1,0 +1,411 @@
+" Indent
+set autoindent
+set expandtab
+filetype indent on
+set shiftround
+set shiftwidth=2
+set smarttab
+set tabstop=2
+
+" Search
+set hlsearch
+set ignorecase
+set incsearch
+set smartcase
+
+" Performance
+set complete-=i
+set lazyredraw
+
+" Text Rendering
+set display+=lastline
+set encoding=utf-8
+set linebreak
+set scrolloff=1
+set sidescrolloff=5
+syntax on
+set wrap
+
+" User Interface
+set laststatus=2
+set ruler
+set wildmenu
+set tabpagemax=50
+set cursorline
+set number
+" set relativenumber
+set noerrorbells
+set visualbell
+set mouse=a
+set title
+set cmdheight=1
+
+" Folding
+set nofoldenable
+
+" Clipboard
+set clipboard+=unnamedplus
+
+" Others
+set autoread
+set backspace=indent,eol,start
+set confirm
+set formatoptions+=j
+set hidden
+set history=1000
+set nomodeline
+set noshowmode
+set noswapfile
+set nobackup
+set nowritebackup
+set updatetime=300
+set shortmess+=c
+
+if exists('+termguicolors')
+  set termguicolors
+endif
+
+" Key mapping
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
+inoremap jk <Esc>
+inoremap kj <Esc>
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+nnoremap <C-s> :w<CR>
+
+vnoremap > >gv
+vnoremap < <gv
+
+" Plugins
+call plug#begin('~/.config/nvim/plugged')
+
+" Language
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Status bar
+ Plug 'itchyny/lightline.vim'
+
+" Nerd tree
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+" Theme
+Plug 'arcticicestudio/nord-vim'
+
+" Indent
+Plug 'Yggdroot/indentLine'
+
+" Git
+Plug 'airblade/vim-gitgutter'
+Plug 'zivyangll/git-blame.vim'
+Plug 'tpope/vim-fugitive'
+
+" Syntax highlighting
+Plug 'sheerun/vim-polyglot'
+
+" Search
+Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
+Plug 'junegunn/fzf.vim'
+
+" Comment
+Plug 'scrooloose/nerdcommenter'
+
+" Surrounding
+Plug 'tpope/vim-surround'
+Plug 'alvan/vim-closetag'
+
+" Multicursor
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
+" Snippets
+Plug 'honza/vim-snippets'
+Plug 'mlaursen/vim-react-snippets'
+
+call plug#end()
+
+" Theme
+" set background=dark
+
+colorscheme nord
+" hi Normal guibg=none ctermbg=none
+
+" Coc.nvim
+" Coc Extensions
+let g:coc_global_extensions = [
+  \ 'coc-spell-checker',
+  \ 'coc-pairs',
+  \ 'coc-snippets',
+  \ 'coc-prettier',
+  \ 'coc-eslint',
+  \ 'coc-tsserver',
+  \ 'coc-html',
+  \ 'coc-emmet',
+  \ 'coc-css',
+  \ 'coc-styled-components',
+  \ 'coc-python',
+  \ 'coc-json',
+  \ 'coc-yaml',
+  \ 'coc-vetur',
+  \ 'coc-docker',
+  \ 'coc-emoji',
+  \ 'coc-tailwindcss',
+  \ ]
+
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-cursor)
+nmap <leader>a  <Plug>(coc-codeaction-cursor)
+
+" Remap keys for applying codeAction to the current buffer.
+" nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+" nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+" Coc snippets
+" Use <C-l> for trigger snippet expand.
+" imap <C-l> <Plug>(coc-snippets-expand)
+" Use <C-j> for select text for visual placeholder of snippet.
+" vmap <C-j> <Plug>(coc-snippets-select)
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<C-j>'
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<C-k>'
+" Use <C-j> for both expand and jump (make expand higher priority.)
+" imap <C-j> <Plug>(coc-snippets-expand-jump)
+" Use <leader>x for convert visual selected code to snippet
+" xmap <leader>x  <Plug>(coc-convert-snippet)
+
+" Lightline
+let g:lightline = {
+\ 'colorscheme': 'nord',
+\ 'active': {
+\   'left': [ [ 'mode', 'paste' ],
+\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+\ },
+\ 'component_function': {
+\   'gitbranch': 'FugitiveHead'
+\ },
+\ }
+
+" Nerd tree
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+let g:NERDTreeLimitedSyntax = 1 " solve lag
+let g:NERDTreeHighlightCursorline = 0  " solve lag
+let g:NERDTreeSyntaxEnabledExactMatches = ['node_modules'] " enable highlight for dropbox and node_modules folders, and favicon.ico files with default colors
+
+" let NERDTreeQuitOnOpen=1
+let NERDTreeShowHidden=1
+
+" Start NERDTree when Vim is started without file arguments.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+
+" Start NERDTree when Vim starts with a directory argument.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+
+" Exit Vim if NERDTree is the only window left.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+    \ quit | endif
+
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! SyncTree()
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
+
+" Highlight currently open buffer in NERDTree
+autocmd BufEnter * call SyncTree()
+
+nnoremap <C-n> :NERDTreeToggle<CR>
+
+" Indent line
+let g:indentLine_char = '▏'
+let g:indentLine_fileTypeExclude = ['nerdtree']
+
+
+" Git blame
+nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
+
+" FZF preview window
+let g:fzf_preview_window = ['up:40%']
+" FZF
+nnoremap <C-p> :FZF!<CR>
+" Ripgrep
+nnoremap <C-f> :Rg!<CR>
+" Ripgrep file content only
+command! -bang -nargs=* RG
+  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+" nnoremap <C-x> :RG!<CR>
+
+" Nerd commenter
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1
+
+nmap <C-_>   <Plug>NERDCommenterToggle
+vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
+
+" Multicursor
+let g:VM_maps = {}
+let g:VM_maps['Find Under']         = '<C-d>'           " replace C-n
+let g:VM_maps['Find Subword Under'] = '<C-d>'           " replace visual C-n
+" let g:VM_mouse_mappings = 1
+
+" Auto close tag
+" These are the file extensions where this plugin is enabled.
+let g:closetag_filenames = '*.html,*.js,*.ts,*.jsx,*.tsx'
+
+" This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
+let g:closetag_emptyTags_caseSensitive = 1
+" Shortcut for closing tags, default is '>'
+let g:closetag_shortcut = '>'
+" Add > at current position without closing the current tag, default is ''
+let g:closetag_close_shortcut = '<leader>>'
+

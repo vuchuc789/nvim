@@ -1,0 +1,37 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "html",
+    "css",
+    "scss",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "json",
+    "jsonc",
+    "yaml",
+    "dockerfile"
+  ],
+  "javascript.validate.enable": true,
+  "javascript.suggestionActions.enabled": false,
+  "typescript.validate.enable": true,
+  "typescript.suggestionActions.enabled": false,
+  "prettier.tabWidth": 2,
+  "prettier.printWidth": 80,
+  "prettier.singleQuote": true,
+  "prettier.semi": true,
+  "prettier.trailingComma": "es5",
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
+  "snippets.extends": {
+    "javascriptreact": ["javascript"],
+    "typescript": ["javascript"],
+    "typescriptreact": ["javascript"]
+  },
+  "coc.source.emoji.filetypes": null
+}
