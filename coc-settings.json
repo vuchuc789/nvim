@@ -17,17 +17,18 @@
   "javascript.suggestionActions.enabled": false,
   "typescript.validate.enable": true,
   "typescript.suggestionActions.enabled": false,
-  "prettier.tabWidth": 2,
-  "prettier.printWidth": 80,
-  "prettier.singleQuote": true,
-  "prettier.semi": true,
-  "prettier.trailingComma": "es5",
   "eslint.validate": [
     "javascript",
     "typescript",
     "javascriptreact",
     "typescriptreact"
   ],
+  "eslint.autoFixOnSave": true,
+  "prettier.tabWidth": 2,
+  "prettier.printWidth": 80,
+  "prettier.singleQuote": true,
+  "prettier.semi": true,
+  "prettier.trailingComma": "es5",
   "snippets.extends": {
     "javascriptreact": ["javascript"],
     "typescript": ["javascript"],

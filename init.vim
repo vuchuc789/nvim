@@ -61,7 +61,7 @@ set nowritebackup
 set updatetime=300
 set shortmess+=c
 
-if exists('+termguicolors')
+if has('termguicolors')
   set termguicolors
 endif
 
@@ -79,8 +79,6 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-nnoremap <C-s> :w<CR>
-
 vnoremap > >gv
 vnoremap < <gv
 
@@ -90,17 +88,18 @@ call plug#begin('~/.config/nvim/plugged')
 " Language
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" Icon
+Plug 'kyazdani42/nvim-web-devicons'
+
 " Status bar
- Plug 'itchyny/lightline.vim'
+Plug 'nvim-lualine/lualine.nvim'
+
 
 " Nerd tree
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'ryanoasis/vim-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'kyazdani42/nvim-tree.lua'
 
 " Theme
-Plug 'arcticicestudio/nord-vim'
+Plug 'sainnhe/everforest'
 
 " Indent
 Plug 'Yggdroot/indentLine'
@@ -111,11 +110,11 @@ Plug 'zivyangll/git-blame.vim'
 Plug 'tpope/vim-fugitive'
 
 " Syntax highlighting
-Plug 'sheerun/vim-polyglot'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Search
-Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
-Plug 'junegunn/fzf.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " Comment
 Plug 'scrooloose/nerdcommenter'
@@ -131,13 +130,25 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'honza/vim-snippets'
 Plug 'mlaursen/vim-react-snippets'
 
+" Repeat
+Plug 'tpope/vim-repeat'
+
 call plug#end()
 
-" Theme
-" set background=dark
+let g:everforest_background = 'soft'
+let g:everforest_better_performance = 1
 
-colorscheme nord
+" Theme
+set background=dark
+
+colorscheme everforest
 " hi Normal guibg=none ctermbg=none
+
+" Tree
+:lua require('tree')
+
+" Treesitter
+:lua require('treesitter')
 
 " Coc.nvim
 " Coc Extensions
@@ -292,86 +303,26 @@ let g:coc_snippet_prev = '<C-k>'
 " Use <leader>x for convert visual selected code to snippet
 " xmap <leader>x  <Plug>(coc-convert-snippet)
 
-" Lightline
-let g:lightline = {
-\ 'colorscheme': 'nord',
-\ 'active': {
-\   'left': [ [ 'mode', 'paste' ],
-\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-\ },
-\ 'component_function': {
-\   'gitbranch': 'FugitiveHead'
-\ },
-\ }
-
-" Nerd tree
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
-let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
-let g:NERDTreeLimitedSyntax = 1 " solve lag
-let g:NERDTreeHighlightCursorline = 0  " solve lag
-let g:NERDTreeSyntaxEnabledExactMatches = ['node_modules'] " enable highlight for dropbox and node_modules folders, and favicon.ico files with default colors
-
-" let NERDTreeQuitOnOpen=1
-let NERDTreeShowHidden=1
-
-" Start NERDTree when Vim is started without file arguments.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
-
-" Start NERDTree when Vim starts with a directory argument.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
-    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
-
-" Exit Vim if NERDTree is the only window left.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-    \ quit | endif
-
-" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
-autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
-    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
-
-" Check if NERDTree is open or active
-function! IsNERDTreeOpen()
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
-
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
-function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-    wincmd p
-  endif
-endfunction
-
-" Highlight currently open buffer in NERDTree
-autocmd BufEnter * call SyncTree()
-
-nnoremap <C-n> :NERDTreeToggle<CR>
-
 " Indent line
 let g:indentLine_char = '▏'
-let g:indentLine_fileTypeExclude = ['nerdtree']
 
+" Tree
+nnoremap <C-n> :NvimTreeToggle<CR>
+
+" StatusLine
+:lua require('statusline')
 
 " Git blame
 nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
 
-" FZF preview window
-let g:fzf_preview_window = ['up:40%']
-" FZF
-nnoremap <C-p> :FZF!<CR>
-" Ripgrep
-nnoremap <C-f> :Rg!<CR>
-" Ripgrep file content only
-command! -bang -nargs=* RG
-  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
-" nnoremap <C-x> :RG!<CR>
+" Telescope
+
+:lua require('finder')
+
+" nnoremap <C-p> <cmd>Telescope find_files hidden=true no_ignore=true<cr>
+" nnoremap <C-f> <cmd>Telescope live_grep hidden=true no_ignore=true<cr>
+nnoremap <C-p> <cmd>Telescope find_files<cr>
+nnoremap <C-f> <cmd>Telescope live_grep<cr>
 
 " Nerd commenter
 " Create default mappings
