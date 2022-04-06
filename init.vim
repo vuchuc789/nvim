@@ -113,8 +113,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Search
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
+Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
+Plug 'junegunn/fzf.vim'
 
 " Comment
 Plug 'scrooloose/nerdcommenter'
@@ -317,12 +319,24 @@ nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
 
 " Telescope
 
-:lua require('finder')
+" :lua require('finder')
 
 " nnoremap <C-p> <cmd>Telescope find_files hidden=true no_ignore=true<cr>
 " nnoremap <C-f> <cmd>Telescope live_grep hidden=true no_ignore=true<cr>
-nnoremap <C-p> <cmd>Telescope find_files<cr>
-nnoremap <C-f> <cmd>Telescope live_grep<cr>
+" nnoremap <C-p> <cmd>Telescope find_files<cr>
+" nnoremap <C-f> <cmd>Telescope live_grep<cr>
+
+" FZF preview window
+let g:fzf_preview_window = ['up:40%']
+" FZF
+nnoremap <C-p> :FZF!<CR>
+" Ripgrep
+nnoremap <C-f> :Rg!<CR>
+" Ripgrep file content only
+command! -bang -nargs=* RG
+  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+" nnoremap <C-x> :RG!<CR>
 
 " Nerd commenter
 " Create default mappings
