@@ -1,4 +1,3 @@
-vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_add_trailing = 1
 
 require'nvim-tree'.setup {
@@ -7,5 +6,10 @@ require'nvim-tree'.setup {
   },
   update_focused_file = {
     enable = true,
+  },
+  renderer = {
+    indent_markers = {
+      enable = true,
+    },
   },
 }

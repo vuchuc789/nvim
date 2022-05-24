@@ -111,6 +111,9 @@ Plug 'tpope/vim-fugitive'
 
 " Syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'windwp/nvim-ts-autotag'
+Plug 'windwp/nvim-autopairs'
 
 " Search
 " Plug 'nvim-lua/plenary.nvim'
@@ -123,7 +126,6 @@ Plug 'scrooloose/nerdcommenter'
 
 " Surrounding
 Plug 'tpope/vim-surround'
-Plug 'alvan/vim-closetag'
 
 " Multicursor
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
@@ -156,7 +158,6 @@ colorscheme everforest
 " Coc Extensions
 let g:coc_global_extensions = [
   \ 'coc-spell-checker',
-  \ 'coc-pairs',
   \ 'coc-snippets',
   \ 'coc-prettier',
   \ 'coc-eslint',
@@ -363,14 +364,5 @@ let g:VM_maps['Find Under']         = '<C-d>'           " replace C-n
 let g:VM_maps['Find Subword Under'] = '<C-d>'           " replace visual C-n
 " let g:VM_mouse_mappings = 1
 
-" Auto close tag
-" These are the file extensions where this plugin is enabled.
-let g:closetag_filenames = '*.html,*.js,*.ts,*.jsx,*.tsx'
-
-" This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
-let g:closetag_emptyTags_caseSensitive = 1
-" Shortcut for closing tags, default is '>'
-let g:closetag_shortcut = '>'
-" Add > at current position without closing the current tag, default is ''
-let g:closetag_close_shortcut = '<leader>>'
-
+" Auto pairs
+:lua require('autopairs')
