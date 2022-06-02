@@ -1,5 +1,3 @@
-vim.g.nvim_tree_add_trailing = 1
-
 require'nvim-tree'.setup {
   git = {
     ignore = false,
@@ -11,5 +9,6 @@ require'nvim-tree'.setup {
     indent_markers = {
       enable = true,
     },
+    add_trailing = true
   },
 }
