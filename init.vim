@@ -102,7 +102,8 @@ Plug 'kyazdani42/nvim-tree.lua'
 Plug 'sainnhe/everforest'
 
 " Indent
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 " Git
 Plug 'airblade/vim-gitgutter'
@@ -122,13 +123,13 @@ Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
 Plug 'junegunn/fzf.vim'
 
 " Comment
-Plug 'scrooloose/nerdcommenter'
+Plug 'b3nj5m1n/kommentary'
 
 " Surrounding
 Plug 'tpope/vim-surround'
 
 " Multicursor
-Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+" Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 " Snippets
 Plug 'honza/vim-snippets'
@@ -306,8 +307,8 @@ let g:coc_snippet_prev = '<C-k>'
 " Use <leader>x for convert visual selected code to snippet
 " xmap <leader>x  <Plug>(coc-convert-snippet)
 
-" Indent line
-let g:indentLine_char = '▏'
+" Indent
+:lua require('indent')
 
 " Tree
 nnoremap <C-n> :NvimTreeToggle<CR>
@@ -339,29 +340,13 @@ command! -bang -nargs=* RG
   \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 " nnoremap <C-x> :RG!<CR>
 
-" Nerd commenter
-" Create default mappings
-let g:NERDCreateDefaultMappings = 1
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
-" Use compact syntax for prettified multi-line comments
-let g:NERDCompactSexyComs = 1
-" Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
-" Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDCommentEmptyLines = 1
-" Enable trimming of trailing whitespace when uncommenting
-let g:NERDTrimTrailingWhitespace = 1
-" Enable NERDCommenterToggle to check all selected lines is commented or not 
-let g:NERDToggleCheckAllLines = 1
-
-nmap <C-_>   <Plug>NERDCommenterToggle
-vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
+" commenter
+:lua require('comment')
 
 " Multicursor
-let g:VM_maps = {}
-let g:VM_maps['Find Under']         = '<C-d>'           " replace C-n
-let g:VM_maps['Find Subword Under'] = '<C-d>'           " replace visual C-n
+" let g:VM_maps = {}
+" let g:VM_maps['Find Under']         = '<C-d>'           " replace C-n
+" let g:VM_maps['Find Subword Under'] = '<C-d>'           " replace visual C-n
 " let g:VM_mouse_mappings = 1
 
 " Auto pairs
