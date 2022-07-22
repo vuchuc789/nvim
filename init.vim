@@ -94,6 +94,8 @@ Plug 'kyazdani42/nvim-web-devicons'
 " Status bar
 Plug 'nvim-lualine/lualine.nvim'
 
+" Tabs bar
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 
 " Nerd tree
 Plug 'kyazdani42/nvim-tree.lua'
@@ -315,6 +317,15 @@ nnoremap <C-n> :NvimTreeToggle<CR>
 
 " StatusLine
 :lua require('statusline')
+
+" Tabs Line
+:lua require('tabline')
+nnoremap <silent>[b :BufferLineCycleNext<CR>
+nnoremap <silent>]b :BufferLineCyclePrev<CR>
+
+" These commands will sort buffers by directory, language, or a custom criteria
+nnoremap <silent>be :BufferLineSortByExtension<CR>
+nnoremap <silent>bd :BufferLineSortByDirectory<CR>
 
 " Git blame
 nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>

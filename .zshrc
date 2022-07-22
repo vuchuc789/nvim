@@ -78,17 +78,20 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    git
-    zsh-syntax-highlighting
-    zsh-autosuggestions
-    zsh-completions
-    zsh-history-substring-search
-    command-not-found
-    docker
-    npm
-    yarn
+  git
+  npm
+  yarn
+  pip
+  nvm
+  docker
+  docker-compose
+  kubectl
+  zsh-history-substring-search
+  zsh-syntax-highlighting
+  zsh-autosuggestions
 )
-autoload -U compinit && compinit
+
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
 source $ZSH/oh-my-zsh.sh
 
@@ -123,4 +126,9 @@ source $ZSH/oh-my-zsh.sh
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/chuc/google-cloud-sdk/path.zsh.inc' ]; then . '/home/chuc/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/chuc/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/chuc/google-cloud-sdk/completion.zsh.inc'; fi
