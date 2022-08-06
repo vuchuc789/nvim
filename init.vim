@@ -39,6 +39,7 @@ set visualbell
 set mouse=a
 set title
 set cmdheight=1
+set signcolumn=number
 
 " Folding
 set nofoldenable
@@ -157,6 +158,60 @@ colorscheme everforest
 " Treesitter
 :lua require('treesitter')
 
+" Indent
+:lua require('indent')
+
+" Tree
+nnoremap <C-n> :NvimTreeToggle<CR>
+
+" StatusLine
+:lua require('statusline')
+
+" Tabs Line
+:lua require('tabline')
+nnoremap <silent>[b :BufferLineCycleNext<CR>
+nnoremap <silent>]b :BufferLineCyclePrev<CR>
+
+" These commands will sort buffers by directory, language, or a custom criteria
+nnoremap <silent>be :BufferLineSortByExtension<CR>
+nnoremap <silent>bd :BufferLineSortByDirectory<CR>
+
+" Git blame
+nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
+
+" Telescope
+
+" :lua require('finder')
+
+" nnoremap <C-p> <cmd>Telescope find_files hidden=true no_ignore=true<cr>
+" nnoremap <C-f> <cmd>Telescope live_grep hidden=true no_ignore=true<cr>
+" nnoremap <C-p> <cmd>Telescope find_files<cr>
+" nnoremap <C-f> <cmd>Telescope live_grep<cr>
+
+" FZF preview window
+let g:fzf_preview_window = ['up:40%']
+" FZF
+nnoremap <C-p> :FZF!<CR>
+" Ripgrep
+nnoremap <C-f> :Rg!<CR>
+" Ripgrep file content only
+command! -bang -nargs=* RG
+  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+" nnoremap <C-x> :RG!<CR>
+
+" commenter
+:lua require('comment')
+
+" Multicursor
+" let g:VM_maps = {}
+" let g:VM_maps['Find Under']         = '<C-d>'           " replace C-n
+" let g:VM_maps['Find Subword Under'] = '<C-d>'           " replace visual C-n
+" let g:VM_mouse_mappings = 1
+
+" Auto pairs
+:lua require('autopairs')
+
 " Coc.nvim
 " Coc Extensions
 let g:coc_global_extensions = [
@@ -178,38 +233,22 @@ let g:coc_global_extensions = [
   \ 'coc-tailwindcss',
   \ ]
 
-if has("nvim-0.5.0") || has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  set signcolumn=yes
-endif
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
+" remap for complete to use tab and <cr>
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -308,57 +347,3 @@ let g:coc_snippet_prev = '<C-k>'
 " imap <C-j> <Plug>(coc-snippets-expand-jump)
 " Use <leader>x for convert visual selected code to snippet
 " xmap <leader>x  <Plug>(coc-convert-snippet)
-
-" Indent
-:lua require('indent')
-
-" Tree
-nnoremap <C-n> :NvimTreeToggle<CR>
-
-" StatusLine
-:lua require('statusline')
-
-" Tabs Line
-:lua require('tabline')
-nnoremap <silent>[b :BufferLineCycleNext<CR>
-nnoremap <silent>]b :BufferLineCyclePrev<CR>
-
-" These commands will sort buffers by directory, language, or a custom criteria
-nnoremap <silent>be :BufferLineSortByExtension<CR>
-nnoremap <silent>bd :BufferLineSortByDirectory<CR>
-
-" Git blame
-nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
-
-" Telescope
-
-" :lua require('finder')
-
-" nnoremap <C-p> <cmd>Telescope find_files hidden=true no_ignore=true<cr>
-" nnoremap <C-f> <cmd>Telescope live_grep hidden=true no_ignore=true<cr>
-" nnoremap <C-p> <cmd>Telescope find_files<cr>
-" nnoremap <C-f> <cmd>Telescope live_grep<cr>
-
-" FZF preview window
-let g:fzf_preview_window = ['up:40%']
-" FZF
-nnoremap <C-p> :FZF!<CR>
-" Ripgrep
-nnoremap <C-f> :Rg!<CR>
-" Ripgrep file content only
-command! -bang -nargs=* RG
-  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
-" nnoremap <C-x> :RG!<CR>
-
-" commenter
-:lua require('comment')
-
-" Multicursor
-" let g:VM_maps = {}
-" let g:VM_maps['Find Under']         = '<C-d>'           " replace C-n
-" let g:VM_maps['Find Subword Under'] = '<C-d>'           " replace visual C-n
-" let g:VM_mouse_mappings = 1
-
-" Auto pairs
-:lua require('autopairs')
