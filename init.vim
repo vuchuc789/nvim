@@ -126,10 +126,11 @@ Plug 'junegunn/fzf', {'do': {-> fzf#install()}}
 Plug 'junegunn/fzf.vim'
 
 " Comment
-Plug 'b3nj5m1n/kommentary'
+Plug 'numToStr/Comment.nvim'
 
 " Surrounding
-Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-surround'
+Plug 'kylechui/nvim-surround', { 'tag': '*' }
 
 " Multicursor
 " Plug 'mg979/vim-visual-multi', {'branch': 'master'}
@@ -169,12 +170,12 @@ nnoremap <C-n> :NvimTreeToggle<CR>
 
 " Tabs Line
 :lua require('tabline')
-nnoremap <silent>[b :BufferLineCycleNext<CR>
-nnoremap <silent>]b :BufferLineCyclePrev<CR>
+nnoremap <silent><Tab> :BufferLineCycleNext<CR>
+nnoremap <silent><S-Tab> :BufferLineCyclePrev<CR>
 
 " These commands will sort buffers by directory, language, or a custom criteria
-nnoremap <silent>be :BufferLineSortByExtension<CR>
-nnoremap <silent>bd :BufferLineSortByDirectory<CR>
+" nnoremap <silent>be :BufferLineSortByExtension<CR>
+" nnoremap <silent>bd :BufferLineSortByDirectory<CR>
 
 " Git blame
 nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
@@ -211,6 +212,9 @@ command! -bang -nargs=* RG
 
 " Auto pairs
 :lua require('autopairs')
+
+" Surround
+:lua require('surround')
 
 " Coc.nvim
 " Coc Extensions
