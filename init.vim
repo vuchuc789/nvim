@@ -33,13 +33,14 @@ set wildmenu
 set tabpagemax=50
 set cursorline
 set number
-" set relativenumber
+set relativenumber
 set noerrorbells
 set visualbell
 set mouse=a
 set title
 set cmdheight=1
 set signcolumn=yes
+set termguicolors
 
 " Folding
 set nofoldenable
@@ -61,10 +62,6 @@ set nobackup
 set nowritebackup
 set updatetime=300
 set shortmess+=c
-
-if has('termguicolors')
-  set termguicolors
-endif
 
 " Key mapping
 nnoremap j gj
@@ -103,7 +100,7 @@ Plug 'kyazdani42/nvim-tree.lua'
 
 " Theme
 " Plug 'sainnhe/everforest'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 
 " Indent
 " Plug 'Yggdroot/indentLine'
@@ -117,6 +114,7 @@ Plug 'tpope/vim-fugitive'
 " Syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'windwp/nvim-ts-autotag'
 Plug 'windwp/nvim-autopairs'
 
@@ -149,15 +147,12 @@ call plug#end()
 " let g:everforest_better_performance = 1
 " let g:everforest_transparent_background = 2
 
-let g:tokyonight_style = 'night'
-let g:tokyonight_transparent = 1
-let g:tokyonight_transparent_sidebar = 1
-let g:tokyonight_lualine_bold = 1
+:lua require('theme')
 
-set background=dark
+" set background=dark
 
 " colorscheme everforest
-colorscheme tokyonight
+colorscheme catppuccin
 " hi Normal guibg=none ctermbg=none
 
 " Tree

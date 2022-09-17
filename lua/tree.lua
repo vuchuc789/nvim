@@ -1,3 +1,6 @@
+vim.g.loaded = 1
+vim.g.loaded_netrwPlugin = 1
+
 require'nvim-tree'.setup {
   git = {
     ignore = false,
@@ -10,5 +13,8 @@ require'nvim-tree'.setup {
       enable = true,
     },
     add_trailing = true
+  },
+  view = {
+    adaptive_size = true
   },
 }
