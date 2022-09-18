@@ -34,5 +34,8 @@
     "typescript": ["javascript"],
     "typescriptreact": ["javascript"]
   },
-  "coc.source.emoji.filetypes": null
+  "coc.source.emoji.filetypes": null,
+  "cSpell.userWords": [
+    "Firestore"
+  ]
 }

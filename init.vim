@@ -1,11 +1,11 @@
 " Indent
 set autoindent
 set expandtab
-filetype indent on
 set shiftround
 set shiftwidth=2
 set smarttab
 set tabstop=2
+filetype indent on
 
 " Search
 set hlsearch
@@ -25,6 +25,7 @@ set scrolloff=1
 set sidescrolloff=5
 syntax on
 set wrap
+" set nowrap
 
 " User Interface
 set laststatus=2
