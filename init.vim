@@ -101,7 +101,8 @@ Plug 'kyazdani42/nvim-tree.lua'
 
 " Theme
 " Plug 'sainnhe/everforest'
-Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+" Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+Plug 'sainnhe/gruvbox-material'
 
 " Indent
 " Plug 'Yggdroot/indentLine'
@@ -148,12 +149,17 @@ call plug#end()
 " let g:everforest_better_performance = 1
 " let g:everforest_transparent_background = 2
 
-:lua require('theme')
+let g:gruvbox_material_background = 'soft'
+let g:gruvbox_material_better_performance = 1
+let g:gruvbox_material_transparent_background = 2
 
-" set background=dark
+" :lua require('theme')
 
+set background=dark
+
+colorscheme gruvbox-material
 " colorscheme everforest
-colorscheme catppuccin
+" colorscheme catppuccin
 " hi Normal guibg=none ctermbg=none
 
 " Tree
