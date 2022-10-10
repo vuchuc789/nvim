@@ -190,15 +190,27 @@ nnoremap <silent><S-Tab> :BufferLineCyclePrev<CR>
 nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
 
 " FZF preview window
+
+" two below commands are almost the same performance
+" let $FZF_DEFAULT_COMMAND='find \! \( -path ''*/.git'' -prune \) -printf ''%P\n'''
+let $FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob ''!.git/'''
+
 let g:fzf_preview_window = ['up:40%']
-" FZF
-nnoremap <C-p> :FZF!<CR>
+
+" rewrite to fine in hidden files (ignore .git only)
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --hidden --glob=!.git/ -- ".shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
+" file's contents only
+command! -bang -nargs=* RG
+  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --hidden --glob=!.git/ -- ".shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+
+" Find files
+nnoremap <C-p> :Files!<CR>
 " Ripgrep
 nnoremap <C-f> :Rg!<CR>
-" Ripgrep file content only
-command! -bang -nargs=* RG
-  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 " nnoremap <C-x> :RG!<CR>
 
 " commenter
