@@ -78,6 +78,9 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" nnoremap <C-w> :bd<CR>
+" nnoremap <C-s> :w<CR>
+
 vnoremap > >gv
 vnoremap < <gv
 
@@ -102,7 +105,8 @@ Plug 'kyazdani42/nvim-tree.lua'
 " Theme
 " Plug 'sainnhe/everforest'
 " Plug 'catppuccin/nvim', {'as': 'catppuccin'}
-Plug 'sainnhe/gruvbox-material'
+" Plug 'sainnhe/gruvbox-material'
+Plug 'bluz71/vim-nightfly-guicolors'
 
 " Indent
 " Plug 'Yggdroot/indentLine'
@@ -149,15 +153,22 @@ call plug#end()
 " let g:everforest_better_performance = 1
 " let g:everforest_transparent_background = 2
 
-let g:gruvbox_material_background = 'soft'
-let g:gruvbox_material_better_performance = 1
-let g:gruvbox_material_transparent_background = 2
+" let g:gruvbox_material_background = 'soft'
+" let g:gruvbox_material_better_performance = 1
+" let g:gruvbox_material_transparent_background = 2
+
+let g:nightflyCursorColor = v:true
+let g:nightflyNormalFloat = v:true
+let g:nightflyTransparent = v:true
+let g:nightflyWinSeparator = 2
+set fillchars=horiz:━,horizup:┻,horizdown:┳,vert:┃,vertleft:┨,vertright:┣,verthoriz:╋
 
 " :lua require('theme')
 
 set background=dark
 
-colorscheme gruvbox-material
+colorscheme nightfly
+" colorscheme gruvbox-material
 " colorscheme everforest
 " colorscheme catppuccin
 " hi Normal guibg=none ctermbg=none
