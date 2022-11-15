@@ -1,18 +1,5 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": [
-    "html",
-    "css",
-    "scss",
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "vue",
-    "json",
-    "jsonc",
-    "yaml",
-    "dockerfile"
-  ],
+  "coc.preferences.formatOnSave": true,
   "javascript.validate.enable": true,
   "javascript.suggestionActions.enabled": false,
   "typescript.validate.enable": true,
@@ -37,5 +24,6 @@
   "coc.source.emoji.filetypes": null,
   "cSpell.userWords": [
     "Firestore"
-  ]
+  ],
+  "snippets.ultisnips.pythonPrompt": false
 }

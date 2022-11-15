@@ -158,7 +158,7 @@ call plug#end()
 " let g:gruvbox_material_transparent_background = 2
 
 let g:nightflyCursorColor = v:true
-let g:nightflyNormalFloat = v:true
+" let g:nightflyNormalFloat = v:true
 let g:nightflyTransparent = v:true
 let g:nightflyWinSeparator = 2
 set fillchars=horiz:━,horizup:┻,horizdown:┳,vert:┃,vertleft:┨,vertright:┣,verthoriz:╋
@@ -207,6 +207,7 @@ nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
 let $FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob ''!.git/'''
 
 let g:fzf_preview_window = ['up:40%']
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 " rewrite to fine in hidden files (ignore .git only)
 command! -bang -nargs=* Rg
