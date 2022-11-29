@@ -23,7 +23,8 @@
   },
   "coc.source.emoji.filetypes": null,
   "cSpell.userWords": [
-    "Firestore"
+    "Firestore",
+    "Upsert"
   ],
   "snippets.ultisnips.pythonPrompt": false
 }
