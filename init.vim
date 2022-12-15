@@ -246,8 +246,10 @@ let g:coc_global_extensions = [
   \ 'coc-vetur',
   \ 'coc-docker',
   \ 'coc-emoji',
-  \ 'coc-tailwindcss',
+  \ 'coc-sumneko-lua',
   \ ]
+
+  " \ 'coc-tailwindcss',
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by

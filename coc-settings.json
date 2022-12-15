@@ -22,9 +22,7 @@
     "typescriptreact": ["javascript"]
   },
   "coc.source.emoji.filetypes": null,
-  "cSpell.userWords": [
-    "Firestore",
-    "Upsert"
-  ],
-  "snippets.ultisnips.pythonPrompt": false
+  "cSpell.userWords": ["Firestore", "Upsert"],
+  "snippets.ultisnips.pythonPrompt": false,
+  "Lua.telemetry.enable": false
 }
