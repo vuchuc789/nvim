@@ -15,3 +15,7 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
+
+map("n", "<leader>tt", function()
+  require("base46").toggle_transparency()
+end)
