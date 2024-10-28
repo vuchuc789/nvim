@@ -19,3 +19,17 @@ map("v", ">", ">gv")
 map("n", "<leader>tt", function()
   require("base46").toggle_transparency()
 end)
+
+map("n", "s", function()
+  require("leap").leap { target_windows = { vim.api.nvim_get_current_win() } }
+end)
+map("n", "S", "<Plug>(leap-from-window)")
+map({ "x", "o" }, "s", "<Plug>(leap-forward)")
+map({ "x", "o" }, "S", "<Plug>(leap-backward)")
+
+local pantran_opts = { noremap = true, silent = true, expr = true }
+map("n", "<leader>tr", require("pantran").motion_translate, pantran_opts)
+map("n", "<leader>trr", function()
+  return require("pantran").motion_translate() .. "_"
+end, pantran_opts)
+map("x", "<leader>tr", require("pantran").motion_translate, pantran_opts)

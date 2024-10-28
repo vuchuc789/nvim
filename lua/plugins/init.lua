@@ -114,13 +114,6 @@ return {
       -- Use the traversal keys to repeat the previous motion without explicitly
       -- invoking Leap.
       require("leap.user").set_repeat_keys("<enter>", "<backspace>")
-
-      vim.keymap.set("n", "s", function()
-        require("leap").leap { target_windows = { vim.api.nvim_get_current_win() } }
-      end)
-      vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
-      vim.keymap.set({ "x", "o" }, "s", "<Plug>(leap-forward)")
-      vim.keymap.set({ "x", "o" }, "S", "<Plug>(leap-backward)")
     end,
   },
 
@@ -129,6 +122,16 @@ return {
     event = "VeryLazy",
     config = function()
       require("neoscroll").setup {}
+    end,
+  },
+
+  {
+    "potamides/pantran.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("pantran").setup {
+        default_engine = "google",
+      }
     end,
   },
 }
