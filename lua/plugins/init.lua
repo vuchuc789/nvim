@@ -124,14 +124,4 @@ return {
       require("neoscroll").setup {}
     end,
   },
-
-  {
-    "potamides/pantran.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("pantran").setup {
-        default_engine = "google",
-      }
-    end,
-  },
 }
