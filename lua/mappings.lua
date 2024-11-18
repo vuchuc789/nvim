@@ -26,3 +26,11 @@ end)
 map("n", "S", "<Plug>(leap-from-window)")
 map({ "x", "o" }, "s", "<Plug>(leap-forward)")
 map({ "x", "o" }, "S", "<Plug>(leap-backward)")
+
+map("n", "<leader>fw", function()
+  require("telescope.builtin").live_grep {
+    additional_args = function()
+      return { "--hidden", "--glob", "!**/.git/*" }
+    end,
+  }
+end, { desc = "telescope live grep" })
