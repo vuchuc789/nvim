@@ -15,6 +15,8 @@ local servers = {
   "gopls",
   "helm_ls",
   "bashls",
+  "denols",
+  "rust_analyzer",
 }
 
 local nvlsp = require "nvchad.configs.lspconfig"
