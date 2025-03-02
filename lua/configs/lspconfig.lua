@@ -15,7 +15,7 @@ local servers = {
   "gopls",
   "helm_ls",
   "bashls",
-  "denols",
+  -- "denols",
   "rust_analyzer",
 }
 
