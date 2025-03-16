@@ -2,11 +2,11 @@
 require("nvchad.configs.lspconfig").defaults()
 
 local lspconfig = require "lspconfig"
+local configs = require "nvchad.configs.lspconfig"
 
 local servers = {
   "html",
   "cssls",
-  "ts_ls",
   "yamlls",
   "dockerls",
   "docker_compose_language_service",
@@ -15,39 +15,41 @@ local servers = {
   "gopls",
   "helm_ls",
   "bashls",
-  -- "denols",
   "rust_analyzer",
+  -- "vtsls",
+  -- "eslint",
+  -- "pyright",
+  -- "ruff",
 }
-
-local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
-    on_attach = nvlsp.on_attach,
-    on_init = nvlsp.on_init,
-    capabilities = nvlsp.capabilities,
+    on_attach = configs.on_attach,
+    on_init = configs.on_init,
+    capabilities = configs.capabilities,
   }
 end
 
--- python
-lspconfig.pylsp.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
-  settings = {
-    pylsp = {
-      plugins = {
-        pycodestyle = {
-          ignore = { "W391" },
-          maxLineLength = 100,
-        },
-      },
-    },
-  },
+lspconfig.vtsls.setup {
+  on_attach = function(client, bufnr)
+    -- Auto-organize imports on save
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.code_action {
+          context = { only = { "source.organizeImports" }, diagnostics = {} },
+          apply = true,
+        }
+      end,
+    })
+
+    configs.on_attach(client, bufnr)
+  end,
+  on_init = configs.on_init,
+  capabilities = configs.capabilities,
 }
 
--- eslint
 lspconfig.eslint.setup {
   on_attach = function(client, bufnr)
     vim.api.nvim_create_autocmd("BufWritePre", {
@@ -55,8 +57,56 @@ lspconfig.eslint.setup {
       command = "EslintFixAll",
     })
 
-    nvlsp.on_attach(client, bufnr)
+    configs.on_attach(client, bufnr)
   end,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
+  on_init = configs.on_init,
+  capabilities = configs.capabilities,
+}
+
+lspconfig.pyright.setup {
+  on_attach = configs.on_attach,
+  on_init = configs.on_init,
+  capabilities = configs.capabilities,
+  settings = {
+    pyright = {
+      -- Using Ruff's import organizer
+      disableOrganizeImports = true,
+    },
+    python = {
+      analysis = {
+        -- Ignore all files for analysis to exclusively use Ruff for linting
+        ignore = { "*" },
+      },
+    },
+  },
+}
+
+lspconfig.ruff.setup {
+  on_attach = function(client, bufnr)
+    -- Auto-fix all and organize imports on save
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      callback = function()
+        -- Fix all issues (linting fixes)
+        vim.lsp.buf.code_action {
+          context = { only = { "source.fixAll" }, diagnostics = {} },
+          apply = true,
+        }
+        -- Organize imports
+        vim.lsp.buf.code_action {
+          context = { only = { "source.organizeImports" }, diagnostics = {} },
+          apply = true,
+        }
+      end,
+    })
+
+    configs.on_attach(client, bufnr)
+  end,
+  on_init = configs.on_init,
+  capabilities = configs.capabilities,
+  init_options = {
+    settings = {
+      lineLength = 88,
+    },
+  },
 }
