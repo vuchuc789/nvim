@@ -16,6 +16,7 @@ local servers = {
   "helm_ls",
   "bashls",
   "rust_analyzer",
+  "tailwindcss",
   -- "vtsls",
   -- "eslint",
   -- "pyright",
