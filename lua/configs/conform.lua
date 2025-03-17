@@ -3,10 +3,10 @@ local options = {
     lua = { "stylua" },
     css = { "prettier" },
     html = { "prettier" },
-    javascript = { "prettier" },
-    typescript = { "prettier" },
+    -- javascript = { "prettier" },
+    -- typescript = { "prettier" },
     yaml = { "yamlfmt" },
-    python = { "yapf" },
+    -- python = { "yapf" },
     go = { "goimports" },
   },
 

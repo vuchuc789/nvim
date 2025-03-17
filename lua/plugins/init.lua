@@ -24,6 +24,7 @@ return {
         "css",
         "markdown",
       },
+      auto_install = true,
     },
   },
 
@@ -123,5 +124,12 @@ return {
     config = function()
       require("neoscroll").setup {}
     end,
+  },
+
+  {
+    "folke/ts-comments.nvim",
+    opts = {},
+    event = "VeryLazy",
+    enabled = vim.fn.has "nvim-0.10.0" == 1,
   },
 }

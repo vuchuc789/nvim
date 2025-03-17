@@ -107,7 +107,7 @@ lspconfig.ruff.setup {
   capabilities = configs.capabilities,
   init_options = {
     settings = {
-      lineLength = 88,
+      lineLength = 100,
     },
   },
 }
