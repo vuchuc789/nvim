@@ -17,10 +17,10 @@ local servers = {
   "bashls",
   "rust_analyzer",
   "tailwindcss",
+  "ruff",
+  "eslint",
   -- "vtsls",
-  -- "eslint",
   -- "pyright",
-  -- "ruff",
 }
 
 -- lsps with default config
@@ -42,20 +42,11 @@ lspconfig.vtsls.setup {
           context = { only = { "source.organizeImports" }, diagnostics = {} },
           apply = true,
         }
+        -- vim.wait(100, function()
+        --   return vim.lsp.buf_request_all == nil
+        -- end)
+        vim.cmd "EslintFixAll"
       end,
-    })
-
-    configs.on_attach(client, bufnr)
-  end,
-  on_init = configs.on_init,
-  capabilities = configs.capabilities,
-}
-
-lspconfig.eslint.setup {
-  on_attach = function(client, bufnr)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      command = "EslintFixAll",
     })
 
     configs.on_attach(client, bufnr)
@@ -78,36 +69,6 @@ lspconfig.pyright.setup {
         -- Ignore all files for analysis to exclusively use Ruff for linting
         ignore = { "*" },
       },
-    },
-  },
-}
-
-lspconfig.ruff.setup {
-  on_attach = function(client, bufnr)
-    -- Auto-fix all and organize imports on save
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      callback = function()
-        -- Fix all issues (linting fixes)
-        vim.lsp.buf.code_action {
-          context = { only = { "source.fixAll" }, diagnostics = {} },
-          apply = true,
-        }
-        -- Organize imports
-        vim.lsp.buf.code_action {
-          context = { only = { "source.organizeImports" }, diagnostics = {} },
-          apply = true,
-        }
-      end,
-    })
-
-    configs.on_attach(client, bufnr)
-  end,
-  on_init = configs.on_init,
-  capabilities = configs.capabilities,
-  init_options = {
-    settings = {
-      lineLength = 100,
     },
   },
 }

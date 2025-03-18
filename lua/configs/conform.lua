@@ -3,10 +3,17 @@ local options = {
     lua = { "stylua" },
     css = { "prettier" },
     html = { "prettier" },
-    -- javascript = { "prettier" },
-    -- typescript = { "prettier" },
+    javascript = { "prettier" },
+    typescript = { "prettier" },
     yaml = { "yamlfmt" },
-    -- python = { "yapf" },
+    python = {
+      -- To fix auto-fixable lint errors.
+      "ruff_fix",
+      -- To run the Ruff formatter.
+      "ruff_format",
+      -- To organize the imports.
+      "ruff_organize_imports",
+    },
     go = { "goimports" },
   },
 
