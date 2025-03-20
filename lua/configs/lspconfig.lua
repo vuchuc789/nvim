@@ -18,7 +18,7 @@ local servers = {
   "rust_analyzer",
   "tailwindcss",
   "ruff",
-  "eslint",
+  -- "eslint",
   -- "vtsls",
   -- "pyright",
 }
@@ -34,19 +34,25 @@ end
 
 lspconfig.vtsls.setup {
   on_attach = function(client, bufnr)
-    -- Auto-organize imports on save
+    -- Define a command to organize imports
+    vim.api.nvim_buf_create_user_command(bufnr, "OrganizeImports", function()
+      vim.lsp.buf.code_action {
+        context = { only = { "source.organizeImports" }, diagnostics = {} },
+        apply = true,
+      }
+    end, { desc = "Organize imports using vtsls" })
+
+    configs.on_attach(client, bufnr)
+  end,
+  on_init = configs.on_init,
+  capabilities = configs.capabilities,
+}
+
+lspconfig.eslint.setup {
+  on_attach = function(client, bufnr)
     vim.api.nvim_create_autocmd("BufWritePre", {
       buffer = bufnr,
-      callback = function()
-        vim.lsp.buf.code_action {
-          context = { only = { "source.organizeImports" }, diagnostics = {} },
-          apply = true,
-        }
-        -- vim.wait(100, function()
-        --   return vim.lsp.buf_request_all == nil
-        -- end)
-        vim.cmd "EslintFixAll"
-      end,
+      command = "EslintFixAll",
     })
 
     configs.on_attach(client, bufnr)

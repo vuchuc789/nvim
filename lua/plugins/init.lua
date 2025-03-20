@@ -132,4 +132,16 @@ return {
     event = "VeryLazy",
     enabled = vim.fn.has "nvim-0.10.0" == 1,
   },
+
+  {
+    "windwp/nvim-ts-autotag",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require("nvim-ts-autotag").setup {
+        -- Your nvim-ts-autotag configuration
+      }
+    end,
+    lazy = true,
+    event = "VeryLazy",
+  },
 }
