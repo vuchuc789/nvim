@@ -135,11 +135,56 @@ return {
 
   {
     "windwp/nvim-ts-autotag",
-    dependencies = "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
     config = function()
       require("nvim-ts-autotag").setup {
         -- Your nvim-ts-autotag configuration
       }
+    end,
+    lazy = true,
+    event = "VeryLazy",
+  },
+
+  {
+    "nvim-telescope/telescope.nvim",
+    opts = function(_, conf)
+      conf.extensions_list = { "themes", "terms", "fzf", "frecency", "emoji" }
+      conf.extensions = {
+        fzf = {
+          fuzzy = true,
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          case_mode = "smart_case",
+        },
+      }
+      return conf
+    end,
+  },
+
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+    build = "make",
+    config = function()
+      require("telescope").load_extension "fzf"
+    end,
+    lazy = true,
+    event = "VeryLazy",
+  },
+
+  {
+    "nvim-telescope/telescope-frecency.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+    -- install the latest stable version
+    version = "*",
+    config = function()
+      require("telescope").load_extension "frecency"
     end,
     lazy = true,
     event = "VeryLazy",
