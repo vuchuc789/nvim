@@ -75,7 +75,7 @@ return {
             -- * query_string: eg '@function.inner'
             -- * selection_mode: eg 'v'
             -- and should return true or false
-            include_surrounding_whitespace = true,
+            -- include_surrounding_whitespace = true,
           },
         },
       }
@@ -150,7 +150,7 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     opts = function(_, conf)
-      conf.extensions_list = { "themes", "terms", "fzf", "frecency", "emoji" }
+      conf.extensions_list = { "themes", "terms", "fzf", "frecency" }
       conf.extensions = {
         fzf = {
           fuzzy = true,
