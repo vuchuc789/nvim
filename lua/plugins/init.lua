@@ -150,15 +150,34 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     opts = function(_, conf)
-      conf.extensions_list = { "themes", "terms", "fzf", "frecency" }
-      conf.extensions = {
-        fzf = {
-          fuzzy = true,
-          override_generic_sorter = true,
-          override_file_sorter = true,
-          case_mode = "smart_case",
+      local telescopeConfig = require "telescope.config"
+
+      ---@diagnostic disable-next-line: deprecated
+      table.unpack = table.unpack or unpack
+      local vimgrep_arguments = { table.unpack(telescopeConfig.values.vimgrep_arguments) }
+
+      table.insert(vimgrep_arguments, "--hidden")
+      table.insert(vimgrep_arguments, "--glob")
+      table.insert(vimgrep_arguments, "!**/.git/*")
+
+      conf.defaults.vimgrep_arguments = vimgrep_arguments
+
+      conf.pickers = {
+        find_files = {
+          find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
         },
       }
+
+      table.insert(conf.extensions_list, "fzf")
+      table.insert(conf.extensions_list, "frecency")
+
+      conf.extensions["fzf"] = {
+        fuzzy = true,
+        override_generic_sorter = true,
+        override_file_sorter = true,
+        case_mode = "smart_case",
+      }
+
       return conf
     end,
   },
