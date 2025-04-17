@@ -218,4 +218,14 @@ return {
     lazy = true,
     event = "VeryLazy",
   },
+
+  {
+    "jake-stewart/multicursor.nvim",
+    branch = "1.0",
+    lazy = true,
+    event = "VeryLazy",
+    config = function()
+      require "configs.multicursor"
+    end,
+  },
 }
