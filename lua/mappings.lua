@@ -91,3 +91,17 @@ map("n", "<leader>td", gitsigns.toggle_deleted, { desc = "toggle deleted" })
 map("n", "<leader>tw", gitsigns.toggle_word_diff, { desc = "toggle diff" })
 
 map({ "o", "x" }, "ih", gitsigns.select_hunk)
+
+map("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "toggle undotree" })
+
+map("n", "<leader>i", function()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    local bufname = vim.api.nvim_buf_get_name(buf)
+    if bufname:match "Syntax tree" then
+      vim.api.nvim_win_close(win, true)
+      return
+    end
+  end
+  vim.treesitter.inspect_tree()
+end, { desc = "toggle inspecttree" })
