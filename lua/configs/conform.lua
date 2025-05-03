@@ -6,6 +6,8 @@ local options = {
     markdown = { "prettier" },
     javascript = { "prettier" },
     typescript = { "prettier" },
+    javascriptreact = { "prettier" },
+    typescriptreact = { "prettier" },
     yaml = { "yamlfmt" },
     python = {
       -- To fix auto-fixable lint errors.

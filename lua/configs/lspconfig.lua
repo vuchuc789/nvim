@@ -18,53 +18,12 @@ local servers = {
   "rust_analyzer",
   "tailwindcss",
   "ruff",
-  -- "eslint",
-  -- "vtsls",
-  -- "pyright",
+  "eslint",
+  "vtsls",
+  "pyright",
 }
 
--- lsps with default config
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = configs.on_attach,
-    on_init = configs.on_init,
-    capabilities = configs.capabilities,
-  }
-end
-
-lspconfig.vtsls.setup {
-  on_attach = function(client, bufnr)
-    -- Define a command to organize imports
-    vim.api.nvim_buf_create_user_command(bufnr, "OrganizeImports", function()
-      vim.lsp.buf.code_action {
-        context = { only = { "source.organizeImports" }, diagnostics = {} },
-        apply = true,
-      }
-    end, { desc = "Organize imports using vtsls" })
-
-    configs.on_attach(client, bufnr)
-  end,
-  on_init = configs.on_init,
-  capabilities = configs.capabilities,
-}
-
-lspconfig.eslint.setup {
-  on_attach = function(client, bufnr)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      command = "EslintFixAll",
-    })
-
-    configs.on_attach(client, bufnr)
-  end,
-  on_init = configs.on_init,
-  capabilities = configs.capabilities,
-}
-
-lspconfig.pyright.setup {
-  on_attach = configs.on_attach,
-  on_init = configs.on_init,
-  capabilities = configs.capabilities,
+vim.lsp.config("pyright", {
   settings = {
     pyright = {
       -- Using Ruff's import organizer
@@ -77,4 +36,30 @@ lspconfig.pyright.setup {
       },
     },
   },
-}
+})
+
+vim.lsp.enable(servers)
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client then
+      return
+    end
+
+    if client.name == "vtsls" then
+      -- Define a command to organize imports
+      vim.api.nvim_buf_create_user_command(args.buf, "OrganizeImports", function()
+        vim.lsp.buf.code_action {
+          context = { only = { "source.organizeImports" }, diagnostics = {} },
+          apply = true,
+        }
+      end, { desc = "Organize imports using vtsls" })
+    elseif client.name == "eslint" then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = args.buf,
+        command = "LspEslintFixAll",
+      })
+    end
+  end,
+})
