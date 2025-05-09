@@ -236,7 +236,7 @@ return {
     opts = {
       provider = "gemini",
       gemini = {
-        model = "gemini-2.0-flash",
+        model = "gemini-2.5-flash-preview-04-17",
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
