@@ -235,8 +235,10 @@ return {
     version = false, -- Never set this value to "*"! Never!
     opts = {
       provider = "gemini",
-      gemini = {
-        model = "gemini-2.5-flash-preview-04-17",
+      providers = {
+        gemini = {
+          model = "gemini-2.5-flash-preview-05-20",
+        },
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
