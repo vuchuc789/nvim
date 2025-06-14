@@ -1,9 +1,6 @@
 -- load defaults i.e lua_lsp
 require("nvchad.configs.lspconfig").defaults()
 
-local lspconfig = require "lspconfig"
-local configs = require "nvchad.configs.lspconfig"
-
 local servers = {
   "html",
   "cssls",
@@ -43,7 +40,7 @@ vim.lsp.enable(servers)
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if not client then
+    if client == nil then
       return
     end
 
