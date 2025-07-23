@@ -234,10 +234,19 @@ return {
     event = "VeryLazy",
     version = false, -- Never set this value to "*"! Never!
     opts = {
-      provider = "gemini",
+      provider = "gemini-flash",
       providers = {
-        gemini = {
-          model = "gemini-2.5-flash-preview-05-20",
+        ["gemini-pro"] = {
+          __inherited_from = "gemini",
+          model = "gemini-2.5-pro",
+        },
+        ["gemini-flash"] = {
+          __inherited_from = "gemini",
+          model = "gemini-2.5-flash",
+        },
+        ["gemini-flash-lite"] = {
+          __inherited_from = "gemini",
+          model = "gemini-2.5-flash-lite",
         },
       },
     },
