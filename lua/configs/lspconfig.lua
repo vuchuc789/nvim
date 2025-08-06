@@ -18,6 +18,7 @@ local servers = {
   "eslint",
   "vtsls",
   "pyright",
+  "texlab",
 }
 
 vim.lsp.config("pyright", {
